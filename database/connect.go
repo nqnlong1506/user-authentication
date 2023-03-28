@@ -1,11 +1,12 @@
 package db
 
 import (
-	"log"
 	"context"
+	"log"
 	"os"
+
 	"go.mongodb.org/mongo-driver/mongo"
-    "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectUsers() *mongo.Collection {
@@ -13,16 +14,16 @@ func ConnectUsers() *mongo.Collection {
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
-    	log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	// Check the connection
 	err = client.Ping(context.TODO(), nil)
 
 	if err != nil {
-    	log.Fatal(err)
+		log.Fatal(err)
 	}
 
-	collection := client.Database("golang").Collection("users")
+	collection := client.Database("UserAuthentication").Collection("users")
 	return collection
 }
