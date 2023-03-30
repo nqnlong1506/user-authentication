@@ -23,5 +23,10 @@ func main() {
 	router.POST("/auth/login", routes.Login)
 	router.POST("/auth/register", routes.Register)
 
+	// test
+	{
+		router.POST("/nqnlong1506/test", test.Test)
+	}
+
 	router.Logger.Fatal(router.Start(":1323"))
 }
