@@ -25,7 +25,7 @@ func main() {
 
 	// test
 	{
-		router.POST("/nqnlong1506/test", test.Test)
+		// router.POST("/nqnlong1506/test", test.Test)
 	}
 
 	router.Logger.Fatal(router.Start(":1323"))
