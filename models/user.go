@@ -1,28 +1,16 @@
 package models
 
 import (
-	"html"
-	"strings"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/nqnlong1506/user-authentication/database"
+	"gorm.io/gorm"
 )
 
 type User struct {
-	username string 
-	email string	
-	password string	
+	gorm.Model
+	Username string `gorm:"username;not null;unique"`
+	Password string `gorm:"password;not null"`
 }
 
-
-func Hash(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-func CheckPasswordHash(hashedPassword, password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-}
-
-func Santize(data string) string{
-	data = html.EscapeString(strings.TrimSpace(data))
-	return data
+func InitializeUser() {
+	database.DB.AutoMigrate(&User{})
 }
