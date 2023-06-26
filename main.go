@@ -2,31 +2,36 @@ package main
 
 import (
 	"log"
-	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
-	"github.com/nqnlong1506/user-authentication/routes"
+	"github.com/nqnlong1506/user-authentication/controller"
+	"github.com/nqnlong1506/user-authentication/database"
+	"github.com/nqnlong1506/user-authentication/models"
 )
 
-func main() {
+func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error getting env, %v", err)
+		log.Fatal("Error loading .env file:", err)
 	}
 
-	router := echo.New()
-	router.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-
-	router.POST("/auth/login", routes.Login)
-	router.POST("/auth/register", routes.Register)
-
-	// test
 	{
-		router.POST("/nqnlong1506/test", test.Test)
+		database.ConnecetDB()
+		models.InitializeUser()
 	}
+}
 
-	router.Logger.Fatal(router.Start(":1323"))
+func main() {
+	r := gin.Default()
+
+	r.POST("/signup", controller.Signup)
+	r.POST("/login", controller.Login)
+
+	r.POST("/validate", controller.Validation)
+
+	r.Use(controller.Validation)
+	r.GET("/do-something", controller.DoSomeThing)
+
+	r.Run() // listen and serve on 0.0.0.0:8080
 }
