@@ -1,1 +1,12 @@
-*.env
+# Ignore compiled binaries
+*.exe
+
+# Ignore log files
+*.log
+
+# Ignore OS and editor-specific files
+.vscode/
+
+# Ignore sensitive information
+
+# Ignore build artifacts
